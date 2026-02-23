@@ -1,0 +1,50 @@
+body {
+  margin: 0;
+  padding: 50px;
+  font-family: Arial, sans-serif;
+  background: #edf2f8;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto auto;
+  gap: 20px;
+}
+
+.card {
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.card h2, .card h3 {
+  margin-bottom: 15px;
+}
+
+.purple {
+  background: #733fc8;
+  color: white;
+  grid-column: 1 / 3;   /* spans 2 columns */
+}
+
+.dark {
+  background: #49556b;
+  color: white;
+}
+
+.white {
+  background: white;
+  color: #333;
+}
+
+.light {
+  background: white;
+  color: #333;
+}
+
+.navy {
+  background: #18202d;
+  color: white;
+  grid-column: 2 / 4;   /* bottom wide */
+}
