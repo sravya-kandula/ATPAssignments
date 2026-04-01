@@ -2,22 +2,22 @@ import exp from "express";
 import { connect } from "mongoose";
 import { config } from "dotenv";
 import userRoute from "./APIs/UserApi.js";
-import cors from 'cors'
+import cors from "cors";
 //Read environment variables
 config();
-
 
 // Create HTTP Server
 const app = exp();
 //add cors
-app.use(cors({
-  origin:['http://localhost:5173',
-         "https://user-management-frontend-beta.vercel.app"]
-}))
+app.use(
+  cors({
+    origin: ["http://localhost:5173", process.env.FRONTEND_URL],
+  }),
+);
 // Add body parser middleware
 app.use(exp.json());
 // Forward req to UserAPI if path starts with /user-api
-app.use("/user-api",userRoute);
+app.use("/user-api", userRoute);
 
 // Connect to DB
 async function connectDB() {
@@ -36,8 +36,7 @@ connectDB();
 
 // Add error handling middleware
 app.use((err, req, res, next) => {
-
-  console.log("err is ",err)
+  console.log("err is ", err);
   // Mongoose validation error
   if (err.name === "ValidationError") {
     return res.status(400).json({
