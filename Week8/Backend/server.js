@@ -11,7 +11,12 @@ const app = exp();
 //add cors
 app.use(
   cors({
-    origin: ["http://localhost:5173", process.env.FRONTEND_URL],
+    origin: [
+      "http://localhost:5173",
+      "https://atp-assignments-iota.vercel.app",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true, // if you use cookies/auth
   }),
 );
 // Add body parser middleware

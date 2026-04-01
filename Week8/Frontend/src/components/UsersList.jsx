@@ -1,52 +1,65 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 
 function UsersList() {
-  let [users, setUsers] = useState([]);
-  let navigate = useNavigate();
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const fetchUsers = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch(
+        "https://atpassignments.onrender.com/user-api/users",
+      );
+      if (!res.ok) throw new Error("Failed to fetch users");
+      const data = await res.json();
+      setUsers(data.payload); // Adjust based on your backend response
+    } catch (err) {
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    async function getUsers() {
-      try {
-        let res = await fetch(
-          "https://atpassignments.onrender.com/user-api/users",
-          {
-            method: "GET",
-          },
-        );
-
-        if (res.status === 200) {
-          //extract json data
-          let resObj = await res.json();
-          //update the state
-          setUsers(resObj.payload);
-        } else {
-        }
-      } catch (err) {
-        //set error
-      }
-    }
-
-    getUsers();
+    fetchUsers();
   }, []);
 
-  //go to user
+  // Refetch users if navigated after adding
+  useEffect(() => {
+    if (location.state?.refresh) {
+      fetchUsers();
+    }
+  }, [location.state]);
+
   const gotoUser = (userObj) => {
     navigate("/user", { state: { user: userObj } });
   };
 
+  if (loading)
+    return <p className="text-center text-orange-400 text-3xl">Loading...</p>;
+  if (error)
+    return <p className="text-center text-red-400 text-3xl">{error.message}</p>;
+
   return (
-    <div>
-      <h1 className="text-5xl text-gray-600">List of Users</h1>
+    <div className="p-10">
+      <h1 className="text-5xl text-gray-600 text-center mb-10">
+        List of Users
+      </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
-        {users?.map((userObj) => (
+        {users.map((user) => (
           <div
-            key={userObj.email}
-            className="p-10 shadow-2xl cursor-pointer px-10"
-            onClick={() => gotoUser(userObj)}
+            key={user._id} // Use _id if backend provides it
+            className="p-6 shadow-2xl cursor-pointer rounded hover:bg-gray-100 transition"
+            onClick={() => gotoUser(user)}
           >
-            <p className="text-3xl">{userObj.name}</p>
-            <p className="text-2xl">{userObj.email}</p>
+            <p className="text-3xl font-semibold">{user.name}</p>
+            <p className="text-2xl">{user.email}</p>
           </div>
         ))}
       </div>
