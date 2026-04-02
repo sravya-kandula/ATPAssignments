@@ -40,7 +40,10 @@ function ArticleByID() {
       setLoading(true);
 
       try {
-        const res = await axios.get(`http://localhost:4000/user-api/article/${id}`, { withCredentials: true });
+        const res = await axios.get(
+          `https://atpassignments-1.onrender.com/user-api/article/${id}`,
+          { withCredentials: true },
+        );
 
         setArticle(res.data.payload);
       } catch (err) {
@@ -65,12 +68,14 @@ function ArticleByID() {
   const toggleArticleStatus = async () => {
     const newStatus = !article.isArticleActive;
 
-    const confirmMsg = newStatus ? "Restore this article?" : "Delete this article?";
+    const confirmMsg = newStatus
+      ? "Restore this article?"
+      : "Delete this article?";
     if (!window.confirm(confirmMsg)) return;
 
     try {
       const res = await axios.patch(
-        `http://localhost:4000/author-api/articles/${id}/status`,
+        `https://atpassignments-1.onrender.com/author-api/articles/${id}/status`,
         { isArticleActive: newStatus },
         { withCredentials: true },
       );
@@ -103,7 +108,11 @@ function ArticleByID() {
     //add artcileId
     commentObj.articleId = article._id;
     console.log(commentObj);
-    let res = await axios.put("http://localhost:4000/user-api/articles", commentObj, { withCredentials: true });
+    let res = await axios.put(
+      "https://atpassignments-1.onrender.com/user-api/articles",
+      commentObj,
+      { withCredentials: true },
+    );
     if (res.status === 200) {
       toast.success(res.data.message);
       setArticle(res.data.payload);
@@ -123,7 +132,9 @@ function ArticleByID() {
         <h1 className={`${articleMainTitle} uppercase`}>{article.title}</h1>
 
         <div className={articleAuthorRow}>
-          <div className={authorInfo}>✍️ {article.author?.firstName || "Author"}</div>
+          <div className={authorInfo}>
+            ✍️ {article.author?.firstName || "Author"}
+          </div>
 
           <div>{formatDate(article.createdAt)}</div>
         </div>
@@ -155,7 +166,10 @@ function ArticleByID() {
               className={inputClass}
               placeholder="Write your comment here..."
             />
-            <button type="submit" className="bg-amber-600 text-white px-5 py-2 rounded-2xl mt-5">
+            <button
+              type="submit"
+              className="bg-amber-600 text-white px-5 py-2 rounded-2xl mt-5"
+            >
               Add comment
             </button>
           </form>
@@ -166,23 +180,18 @@ function ArticleByID() {
       {article.comments.map((comment) => (
         <div className="bg-gray-300 p-6 rounded-2xl mt-4">
           <p className="uppercase text-pink-400 font-bold mb-3">
-          {comment.user?.firstName}
+            {comment.user?.firstName}
           </p>
           <p>{comment.comment}</p>
         </div>
       ))}
 
       {/* Footer */}
-      <div className={articleFooter}>Last updated: {formatDate(article.updatedAt)}</div>
+      <div className={articleFooter}>
+        Last updated: {formatDate(article.updatedAt)}
+      </div>
     </div>
   );
 }
 
 export default ArticleByID;
-
-// {
-//   "user":"6989799b7013502767d3f82b",
-//   "articleId":"6989750220ce5bf826ec4f7e",
-//   "comment":"good article"
-
-// }

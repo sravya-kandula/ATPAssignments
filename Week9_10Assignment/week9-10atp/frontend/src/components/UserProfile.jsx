@@ -29,7 +29,10 @@ function UserProfile() {
     const getArticles = async () => {
       setLoading(true);
       try {
-        const res = await axios.get("http://localhost:4000/user-api/articles", { withCredentials: true });
+        const res = await axios.get(
+          "https://atpassignments-1.onrender.com/user-api/articles",
+          { withCredentials: true },
+        );
 
         setArticles(res.data.payload);
       } catch (err) {
@@ -73,10 +76,17 @@ function UserProfile() {
 
       <div className="text-end">
         <p className="text-2xl"> Welcome,{currentUser?.firstName}</p>
-        <img src={currentUser?.profileImageUrl} className="w-14 mr-2 rounded-full block ms-auto" alt="" />
+        <img
+          src={currentUser?.profileImageUrl}
+          className="w-14 mr-2 rounded-full block ms-auto"
+          alt=""
+        />
       </div>
       <div className="flex justify-end mb-6 mt-3">
-        <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={onLogout}>
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+          onClick={onLogout}
+        >
           Logout
         </button>
       </div>
@@ -91,11 +101,16 @@ function UserProfile() {
 
                 <p>{articleObj.content.slice(0, 20)}...</p>
 
-                <p className={timestampClass}>{formatDateIST(articleObj.createdAt)}</p>
+                <p className={timestampClass}>
+                  {formatDateIST(articleObj.createdAt)}
+                </p>
               </div>
 
               {/* Button at bottom */}
-              <button className={`${ghostBtn} mt-auto pt-4`} onClick={() => navigateToArticleByID(articleObj)}>
+              <button
+                className={`${ghostBtn} mt-auto pt-4`}
+                onClick={() => navigateToArticleByID(articleObj)}
+              >
                 Read Article →
               </button>
             </div>

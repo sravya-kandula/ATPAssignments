@@ -33,15 +33,19 @@ function EditArticle() {
   useEffect(() => {
     if (!article) return;
 
-     setValue("title", article.title);
-     setValue("category", article.category);
-     setValue("content", article.content);
+    setValue("title", article.title);
+    setValue("category", article.category);
+    setValue("content", article.content);
   }, [article]);
 
   const updateArticle = async (data) => {
     console.log(data);
     data.articleId = article._id;
-    let res = await axios.put("http://localhost:4000/author-api/articles", data, { withCredentials: true });
+    let res = await axios.put(
+      "https://atpassignments-1.onrender.com/author-api/articles",
+      data,
+      { withCredentials: true },
+    );
     console.log("res update atricle", res);
     navigate(`/article/${article._id}`, {
       state: res.data.payload,
@@ -57,7 +61,10 @@ function EditArticle() {
         <div className={formGroup}>
           <label className={labelClass}>Title</label>
 
-          <input className={inputClass} {...register("title", { required: "Title required" })} />
+          <input
+            className={inputClass}
+            {...register("title", { required: "Title required" })}
+          />
 
           {errors.title && <p className={errorClass}>{errors.title.message}</p>}
         </div>
@@ -66,7 +73,10 @@ function EditArticle() {
         <div className={formGroup}>
           <label className={labelClass}>Category</label>
 
-          <select className={inputClass} {...register("category", { required: "Category required" })}>
+          <select
+            className={inputClass}
+            {...register("category", { required: "Category required" })}
+          >
             <option value="">Select category</option>
             <option value="technology">Technology</option>
             <option value="programming">Programming</option>
@@ -74,16 +84,24 @@ function EditArticle() {
             <option value="web-development">Web Development</option>
           </select>
 
-          {errors.category && <p className={errorClass}>{errors.category.message}</p>}
+          {errors.category && (
+            <p className={errorClass}>{errors.category.message}</p>
+          )}
         </div>
 
         {/* Content */}
         <div className={formGroup}>
           <label className={labelClass}>Content</label>
 
-          <textarea rows="14" className={inputClass} {...register("content", { required: "Content required" })} />
+          <textarea
+            rows="14"
+            className={inputClass}
+            {...register("content", { required: "Content required" })}
+          />
 
-          {errors.content && <p className={errorClass}>{errors.content.message}</p>}
+          {errors.content && (
+            <p className={errorClass}>{errors.content.message}</p>
+          )}
         </div>
 
         <button className={submitBtn}>Update Article</button>

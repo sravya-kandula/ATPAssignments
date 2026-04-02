@@ -8,12 +8,20 @@ import { authorRoute } from "./APIs/AuthorAPI.js";
 import { commonRouter } from "./APIs/CommonAPI.js";
 import cors from "cors";
 
-config({ path: "./.env" });//process.env
+config({ path: "./.env" }); //process.env
 
 //Create express application
 const app = exp();
 //use cors middleware
-app.use(cors({ origin: ["http://localhost:5173"], credentials: true }));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://atp-assignments-vj73.vercel.app",
+    ],
+    credentials: true,
+  }),
+);
 //add body parser middleware
 app.use(exp.json());
 //add cookie parser middleware
@@ -32,7 +40,9 @@ const connectDB = async () => {
     console.log("DB connection success");
 
     //start http server
-    app.listen(process.env.PORT, () => console.log(`server started on port ${process.env.PORT}`));
+    app.listen(process.env.PORT, () =>
+      console.log(`server started on port ${process.env.PORT}`),
+    );
   } catch (err) {
     console.log("Err in DB connection", err);
   }
@@ -69,7 +79,8 @@ app.use((err, req, res, next) => {
   }
 
   const errCode = err.code ?? err.cause?.code ?? err.errorResponse?.code;
-  const keyValue = err.keyValue ?? err.cause?.keyValue ?? err.errorResponse?.keyValue;
+  const keyValue =
+    err.keyValue ?? err.cause?.keyValue ?? err.errorResponse?.keyValue;
 
   if (errCode === 11000) {
     const field = Object.keys(keyValue)[0];
