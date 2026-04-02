@@ -18,6 +18,7 @@ app.use(
     origin: [
       "http://localhost:5173",
       "https://atp-assignments-vj73.vercel.app",
+      "https://atp-assignments-vj73-awp3w7izg-sravya-kandulas-projects.vercel.app",
     ],
     credentials: true,
   }),
