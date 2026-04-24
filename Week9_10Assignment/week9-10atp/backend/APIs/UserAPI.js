@@ -19,12 +19,13 @@ userRoute.post(
       //getb user obj
       let userObj = req.body;
 
-      //  Step 1: upload image to cloudinary from memoryStorage (if exists)
-      if (!req.file) {
-        return res.status(400).json({ message: "Image is required" });
-      }
-      cloudinaryResult = await uploadToCloudinary(req.file.buffer);
+      console.log("FILE:", req.file);
 
+      if (!req.file || !req.file.buffer) {
+        return res.status(400).json({ message: "File upload failed" });
+      }
+
+      cloudinaryResult = await uploadToCloudinary(req.file.buffer);
       // Step 2: call existing register()
       const newUserObj = await register({
         ...userObj,

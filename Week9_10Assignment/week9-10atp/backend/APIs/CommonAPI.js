@@ -14,7 +14,7 @@ commonRouter.post("/login", async (req, res) => {
   //save tokan as httpOnly cookie
   res.cookie("token", token, {
     httpOnly: true,
-    sameSite: "lax",
+    sameSite: "none",
     secure: false,
   });
   //send res
@@ -39,7 +39,9 @@ commonRouter.put("/change-password", async (req, res) => {
   const { role, email, currentPassword, newPassword } = req.body;
   // Prevent same password
   if (currentPassword === newPassword) {
-    return res.status(400).json({ message: "newPassword must be different from currentPassword" });
+    return res
+      .status(400)
+      .json({ message: "newPassword must be different from currentPassword" });
   }
 
   // Find user by email (works for USER, AUTHOR, ADMIN — all same collection)
@@ -61,9 +63,13 @@ commonRouter.put("/change-password", async (req, res) => {
 });
 
 //Page refresh
-commonRouter.get("/check-auth", verifyToken("USER","AUTHOR","ADMIN"), (req, res) => {
-  res.status(200).json({
-    message: "authenticated",
-    payload: req.user
-  });
-});
+commonRouter.get(
+  "/check-auth",
+  verifyToken("USER", "AUTHOR", "ADMIN"),
+  (req, res) => {
+    res.status(200).json({
+      message: "authenticated",
+      payload: req.user,
+    });
+  },
+);
