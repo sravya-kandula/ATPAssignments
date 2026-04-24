@@ -15,11 +15,7 @@ const app = exp();
 //use cors middleware
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://atp-assignments-vj73.vercel.app",
-      "https://atp-assignments-vj73-awp3w7izg-sravya-kandulas-projects.vercel.app",
-    ],
+    origin: true, // allow all origins dynamically
     credentials: true,
   }),
 );
