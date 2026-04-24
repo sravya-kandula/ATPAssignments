@@ -55,7 +55,6 @@ function Register() {
           {
             headers: {
               "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           },
         );
@@ -73,7 +72,6 @@ function Register() {
           {
             headers: {
               "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           },
         );
