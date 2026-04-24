@@ -32,6 +32,11 @@ function Register() {
     const formData = new FormData();
     //get user object
     let { role, profileImageUrl, ...userObj } = newUser;
+    if (!profileImageUrl || profileImageUrl.length === 0) {
+      setError("Please upload an image");
+      setLoading(false);
+      return;
+    }
     console.log("role", role);
     console.log("profileImageUrl", profileImageUrl);
     //add all fields except profilePic to FormData object
@@ -39,7 +44,7 @@ function Register() {
       formData.append(key, userObj[key]);
     });
     // add profilePic to Formdata object
-    formData.append("profileImageUrl", profileImageUrl[0]);
+    formData.append("profileImage", profileImageUrl[0]);
     //add image to formData objecte
     try {
       if (role === "user") {
@@ -47,6 +52,12 @@ function Register() {
         let resObj = await axios.post(
           "https://atpassignments-1.onrender.com/user-api/users",
           formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          },
         );
         if (resObj.status === 201) {
           //navigate to login
@@ -59,6 +70,12 @@ function Register() {
         let resObj = await axios.post(
           "https://atpassignments-1.onrender.com/author-api/users",
           formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          },
         );
         console.log("res obj is ", resObj);
         if (resObj.status === 201) {

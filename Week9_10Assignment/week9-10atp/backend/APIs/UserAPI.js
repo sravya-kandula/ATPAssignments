@@ -9,43 +9,51 @@ import { uploadToCloudinary } from "../config/cloudinaryUpload.js";
 export const userRoute = exp.Router();
 
 //Register user
-userRoute.post("/users", upload.single("profileImageUrl"), async (req, res, next) => {
-  let cloudinaryResult;
+userRoute.post(
+  "/users",
+  upload.single("profileImage"),
+  async (req, res, next) => {
+    let cloudinaryResult;
 
-  try {
-    //getb user obj
-    let userObj = req.body;
+    try {
+      //getb user obj
+      let userObj = req.body;
 
-    //  Step 1: upload image to cloudinary from memoryStorage (if exists)
-    if (req.file) {
+      //  Step 1: upload image to cloudinary from memoryStorage (if exists)
+      if (!req.file) {
+        return res.status(400).json({ message: "Image is required" });
+      }
       cloudinaryResult = await uploadToCloudinary(req.file.buffer);
+
+      // Step 2: call existing register()
+      const newUserObj = await register({
+        ...userObj,
+        role: "USER",
+        profileImageUrl: cloudinaryResult?.secure_url,
+      });
+
+      res.status(201).json({
+        message: "user created",
+        payload: newUserObj,
+      });
+    } catch (err) {
+      // Step 3: rollback
+      if (cloudinaryResult?.public_id) {
+        await cloudinary.uploader.destroy(cloudinaryResult.public_id);
+      }
+
+      next(err); // send to your error middleware
     }
-
-    // Step 2: call existing register()
-    const newUserObj = await register({
-      ...userObj,
-      role: "USER",
-      profileImageUrl: cloudinaryResult?.secure_url,
-    });
-
-    res.status(201).json({
-      message: "user created",
-      payload: newUserObj,
-    });
-  } catch (err) {
-    // Step 3: rollback
-    if (cloudinaryResult?.public_id) {
-      await cloudinary.uploader.destroy(cloudinaryResult.public_id);
-    }
-
-    next(err); // send to your error middleware
-  }
-});
+  },
+);
 
 //Read all articles(protected route)
 userRoute.get("/articles", verifyToken("USER"), async (req, res) => {
   //read articles of all authors which are active
-  const articles = await ArticleModel.find({ isArticleActive: true }).populate("comments.user","email firstname");
+  const articles = await ArticleModel.find({ isArticleActive: true }).populate(
+    "comments.user",
+    "email firstname",
+  );
   //send res
   res.status(200).json({ message: "all articles", payload: articles });
 });
@@ -59,7 +67,7 @@ userRoute.put("/articles", verifyToken("USER"), async (req, res) => {
   let articleWithComment = await ArticleModel.findOneAndUpdate(
     { _id: articleId, isArticleActive: true },
     { $push: { comments: { user, comment } } },
-    { new: true, runValidators: true }
+    { new: true, runValidators: true },
   ).populate("comments.user", "email firstName");
 
   if (!articleWithComment) {
@@ -68,7 +76,7 @@ userRoute.put("/articles", verifyToken("USER"), async (req, res) => {
 
   res.status(200).json({
     message: "comment added successfully",
-    payload: articleWithComment
+    payload: articleWithComment,
   });
 });
 
