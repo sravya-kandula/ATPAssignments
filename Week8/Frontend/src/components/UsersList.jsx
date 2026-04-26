@@ -18,7 +18,7 @@ function UsersList() {
       );
       if (!res.ok) throw new Error("Failed to fetch users");
       const data = await res.json();
-      setUsers(data.payload); // Adjust based on your backend response
+      setUsers(data.payload);
     } catch (err) {
       setError(err);
     } finally {
@@ -30,7 +30,6 @@ function UsersList() {
     fetchUsers();
   }, []);
 
-  // Refetch users if navigated after adding
   useEffect(() => {
     if (location.state?.refresh) {
       fetchUsers();
@@ -51,15 +50,16 @@ function UsersList() {
       <h1 className="text-5xl text-gray-600 text-center mb-10">
         List of Users
       </h1>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
         {users.map((user) => (
           <div
-            key={user._id} // Use _id if backend provides it
-            className="p-6 shadow-2xl cursor-pointer rounded hover:bg-gray-100 transition"
+            key={user._id}
+            className="p-6 shadow-2xl cursor-pointer rounded hover:bg-gray-100 transition h-40 flex flex-col justify-center items-center text-center"
             onClick={() => gotoUser(user)}
           >
-            <p className="text-3xl font-semibold">{user.name}</p>
-            <p className="text-2xl">{user.email}</p>
+            <p className="text-3xl font-semibold break-words">{user.name}</p>
+            <p className="text-2xl truncate w-full">{user.email}</p>
           </div>
         ))}
       </div>
