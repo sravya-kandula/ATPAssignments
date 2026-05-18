@@ -1,37 +1,117 @@
-### Using Toast in React app
+# Frontend Development Summary
 
-    - npm install react-hot-toast
-    - Add Toaser component at Root
-        <Toaster position="top-center" reverseOrder={false} /> in App.jsx
+## 1. Frontend Project Setup
+Initialized the frontend application and organized the project structure for scalable and maintainable development.
 
-    - Use toast with custom messages
-        Eg:
-            import toast from "react-hot-toast";
+---
 
-            if (resObj.status === 201) {
-                toast.success("Account created successfully");
-                navigate("/login");
-            }
+## 2. React Application Creation
+Created the frontend using React.js to build a fast, component-based, and dynamic user interface.
 
-### From UserProfile component,
+---
 
-    - Read articles of all AUthors
-    - Display them in the form of Grid of cards
-                1 card for extra  small
-                2 cards for small
-                3 cards for medium
-                4 cards from large screen onwards
+## 3. Package Installation
+Installed required frontend dependencies such as:
+- React Router DOM for routing
+- Axios for API communication
+- Redux/Context API (if used) for state management
+- Bootstrap/Tailwind CSS for styling
 
-### From AuthorProfile component,
+---
 
-    - Read articles of his own
-    - Display them in the form of Grid of cards
-                1 card for extra  small
-                2 cards for small
-                3 cards for medium
-                4 cards from large screen onwards
+## 4. Folder Structure Organization
+Structured the frontend into reusable folders such as:
+- Components
+- Pages
+- Services/API
+- Context/Redux
+- Assets
+- Utilities
 
-### When User /Author click on specific article from Articles list
+to maintain clean architecture.
 
-    - Navigate to "ArticleByID" component along with selected article
-    - Display the  article title, category, content along with author title & time stamps in IST format
+---
+
+## 5. Routing Implementation
+Implemented client-side routing using React Router DOM for smooth navigation between pages without reloading the application.
+
+Example Routes:
+- Login Page
+- Registration Page
+- Dashboard
+- User Pages
+- Author Pages
+
+---
+
+## 6. API Integration
+Integrated frontend with backend REST APIs using Axios for:
+- User registration
+- Login authentication
+- Fetching data
+- CRUD operations
+
+---
+
+## 7. Authentication Handling
+Implemented authentication flow using JWT tokens:
+- Stored token in localStorage/sessionStorage
+- Protected private routes
+- Managed login/logout functionality
+
+---
+
+## 8. Role-Based Navigation
+Implemented role-based frontend navigation where:
+- USER and AUTHOR are redirected to different pages
+- Role access is controlled based on backend response
+
+---
+
+## 9. Form Handling & Validation
+Developed forms for login, registration, and other operations with proper validation and error handling.
+
+---
+
+## 10. State Management
+Managed application state using React hooks such as:
+- useState
+- useEffect
+- Context API / Redux (if implemented)
+
+for efficient data flow across components.
+
+---
+
+## 11. Responsive UI Design
+Designed responsive user interfaces to ensure compatibility across desktop, tablet, and mobile devices.
+
+---
+
+## 12. Error Handling
+Implemented frontend error handling for:
+- API failures
+- Invalid credentials
+- Form validation errors
+- Unauthorized access
+
+---
+
+## 13. Component Reusability
+Created reusable React components to reduce code duplication and improve maintainability.
+
+---
+
+## 14. Backend Connectivity
+Connected frontend with backend server through API endpoints and handled asynchronous data communication efficiently.
+
+---
+
+## 15. Technologies Used
+- React.js
+- React Router DOM
+- Axios
+- JavaScript
+- HTML
+- CSS / Tailwind CSS / Bootstrap
+- Context API / Redux
