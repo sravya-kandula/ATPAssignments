@@ -1,28 +1,95 @@
-### Backend development
+# Backend Development Summary
 
-1. Create git repo
-    git init
+## 1. Git Repository Initialization
+Initialized a Git repository using `git init` to manage version control, track changes, and collaborate efficiently during development.
 
-2. Add .gitignore file
+---
 
-3. Create .env file for environment variables & Read data from .env   
-   with "dotenv" module
-    npm install dotenv
+## 2. .gitignore Configuration
+Created a `.gitignore` file to exclude unnecessary and sensitive files such as `node_modules` and `.env` from being pushed to GitHub.
 
-4. Generate package.json
+---
 
-5. Create express app
+## 3. Environment Variables Setup
+Configured environment variables using a `.env` file and the `dotenv` package to securely store sensitive data like MongoDB URL, JWT secret key, and server port.
 
-6. Connect to Database
+---
 
-7. Add middlewares( body parser, err handling middlewares)
+## 4. Package Initialization
+Generated `package.json` using `npm init -y` to manage project metadata, dependencies, and scripts.
 
-8. Design Schemas and create models
+---
 
-9. Design REST APIs for all resources
+## 5. Express Application Setup
+Created an Express.js server application to handle backend logic, routing, middleware integration, and API requests.
 
-### Registration & Login
+---
 
-10. Registration & Login in common for USER & AUTHOR. Create a seperate service to reuse
+## 6. Database Connection
+Connected the backend application to MongoDB using Mongoose for efficient database operations and schema management.
 
-11. The Client wont send role. It just redirects to a specific API based on role selection. The hardcoded role assigned by API routes.
+---
+
+## 7. Middleware Integration
+Implemented middleware functionalities including:
+- `express.json()` for parsing request bodies
+- Authentication middleware for protected routes
+- Error handling middleware for centralized error management
+
+---
+
+## 8. Schema & Model Design
+Designed MongoDB schemas and models using Mongoose to structure and manage application data efficiently.
+
+---
+
+## 9. REST API Development
+Designed and implemented RESTful APIs for handling different resources and performing CRUD operations.
+
+---
+
+## 10. Registration & Login System
+Implemented secure user authentication using:
+- Password hashing with bcrypt
+- JWT token generation for authorization
+- Login and registration functionalities
+
+---
+
+## 11. Common Authentication Service
+Created a reusable authentication service for both USER and AUTHOR roles to avoid code duplication and improve maintainability.
+
+---
+
+## 12. Role-Based API Handling
+Implemented role-based registration logic where the client does not send the role manually. Instead, dedicated API routes assign hardcoded roles internally.
+
+Example:
+- `/api/users/register` → USER role
+- `/api/authors/register` → AUTHOR role
+
+---
+
+## 13. Project Architecture
+Followed a clean backend architecture with separate folders for:
+- Routes
+- Controllers
+- Models
+- Services
+- Middleware
+- Configuration files
+
+to improve scalability and maintainability.
+
+---
+
+## 14. Technologies Used
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT
+- bcryptjs
+- dotenv
+- Nodemon
+- Git & GitHub
