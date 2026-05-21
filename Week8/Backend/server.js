@@ -11,13 +11,10 @@ const app = exp();
 //add cors
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://atp-assignments-iota.vercel.app",
-    ],
+    origin: "https://atp-assignments-uej6.vercel.app",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true, // if you use cookies/auth
-  }),
+    credentials: true,
+  })
 );
 // Add body parser middleware
 app.use(exp.json());
